@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
+import Provider from "./Provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,15 +24,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider appearance={{
+      baseTheme: dark,
+      variables: {
+        colorPrimary: "#3371FF",
+        fontSize: '16px'
+      }
+    }}>
+      <html lang="en">
+        <body
+          className={cn(
+            "min-h-screen font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          <Provider>
+            {children}
+          </Provider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
